@@ -1,19 +1,17 @@
+import log = require('loglevel');
+
 export const NODE_ENV = (() => {
     try {
-        return global.require('remote').process.env.NODE_ENV;
+        return global.process.env.NODE_ENV;
     } catch (e) {
         return 'production';
     }
 })();
 
-let LogLevel = 'info';
+const log_level =
+    NODE_ENV === 'production' ? 'warn' :
+    NODE_ENV === 'debug'      ? 'debug' :
+                                'info';
 
-if (NODE_ENV === 'production') {
-    LogLevel = 'warn';
-} else if (NODE_ENV === 'debug') {
-    LogLevel = 'debug';
-}
-
-import log = require('loglevel');
-log.setLevel(LogLevel);
+log.setLevel(log_level);
 export default log;
