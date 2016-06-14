@@ -283,6 +283,10 @@ export default class NeovimInput {
                     // they're reflected to key code value.  But Alt key is not considered.
                     // So we should care.
                     input = `<A-${input}>`;
+                } else if (event.ctrlKey) {
+                    // Note:
+                    // Not sure why the original author didn't do this, but ctrl doesn't work without this change.
+                    input = `<C-${input}>`;
                 }
                 this.inputToNeovim(input, event);
             } else {
